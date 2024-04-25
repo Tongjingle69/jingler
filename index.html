@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+  
+  <head>
+    <title>Tongside</title>
+  </head>
+
+  
+    <body>
+
+      <h1>Tongside WEB (testing)</h1>
+
+      <script disable-devtool-auto src='https://cdn.jsdelivr.net/npm/disable-devtool'></script>
+      
+        <input id="usernameBox" type="text">
+        <button id="kickBtn">Execute</button>
+        <p id="statusLabel" hidden></p>
+
+        <script>
+            const URL = '/sendScript';
+            const OK_RESPONSE = 200;
+
+            const usernameBox = document.getElementById('usernameBox');
+            const kickBtn = document.getElementById('kickBtn');
+            const statusLabel = document.getElementById('statusLabel');
+
+            async function sendKickRequest() {
+                const response = await fetch(URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        username: usernameBox.value
+                    })
+                });
+
+                statusLabel.hidden = false;
+                if (response.status == OK_RESPONSE) {
+                    statusLabel.innerText = `Successfully executed ${usernameBox.value}.`
+                } else {
+                    statusLabel.innerText = `Failed to execute ${usernameBox.value}.`
+                }
+            }
+
+            kickBtn.onclick = sendKickRequest;
+        </script>
+    </body>
+</html>
